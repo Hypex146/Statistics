@@ -1,0 +1,11 @@
+# Basic plugin settings
+Main-settings:
+   # Is the plugin enabled?
+   enable: true
+   # Is the greeting enabled when launching the plugin in the console?
+   enable-greeting: true
+   # Logging level
+   # Possible values: MINIMAL, STANDARD, DEBUG
+   # The number of log message depends on the level
+   # At this moment, noone works correctly :-)
+   log-level: STANDART
