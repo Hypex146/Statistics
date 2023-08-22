@@ -6,10 +6,8 @@ depend: []
 commands:
    statistics:
       description: Commands related to the plugin core
-      aliases: stat
-      permission: statistics.admin
-      permission-message: You do not have permission <permission>
       usage: Syntax error! Perhaps you meant /<command> reload?
+      aliases: [stat, st, stata]
 permissions:
    statistics.*:
       description: Access to all plugin commands

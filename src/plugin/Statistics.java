@@ -6,6 +6,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import plugin.commands.StatisticsCommand;
+import plugin.managers.PlayTimeManager;
 import plugin.utilities.LogLevel;
 import plugin.utilities.StConfigurator;
 import plugin.utilities.StLogger;
@@ -14,6 +16,7 @@ public class Statistics extends JavaPlugin {
 	private FileConfiguration config_;
 	private StConfigurator configurator_;
 	private StLogger logger_;
+	private PlayTimeManager play_time_manager_;
 	// configuration
 	private boolean enable_;
 	private boolean enable_greeting_;
@@ -23,6 +26,7 @@ public class Statistics extends JavaPlugin {
 	public Statistics() {
 		configurator_=  new StConfigurator(this);
 		logger_ = new StLogger(this, LogLevel.STANDART);
+		play_time_manager_=  new PlayTimeManager(this);
 	}
 	
 	public String getPluginName() {
@@ -41,10 +45,15 @@ public class Statistics extends JavaPlugin {
 		return logger_;
 	}
 	
+	public PlayTimeManager getPlayTimeManager() {
+		return play_time_manager_;
+	}
+	
 	public void reloadPluginConfig() {
 		saveDefaultConfig();
 		reloadConfig();
 		reloadParams();
+		play_time_manager_.reloadParams();
 		saveConfig();
 	}
 	
@@ -64,7 +73,7 @@ public class Statistics extends JavaPlugin {
 		
 		enable_ = configurator_.getBoolean(main_section, "enable", true);
 		
-		enable_greeting_ = configurator_.getBoolean(main_section, "enable_greeting", true);
+		enable_greeting_ = configurator_.getBoolean(main_section, "enable-greeting", true);
 	}
 	
 	public boolean checkEnableStatus() {
@@ -95,6 +104,15 @@ public class Statistics extends JavaPlugin {
 		reloadPluginConfig();
 		if (!checkEnableStatus()) { return; }
 		if (enable_greeting_) { printGreetingInConsole(); }
+		getCommand("statistics").setExecutor(new StatisticsCommand(this));
+	}
+	
+	@Override
+	public void onDisable() {
+		play_time_manager_.onDisable();
+		saveConfig();
+		logger_.log(LogLevel.STANDART, Level.INFO, "The plugin is disabled.");
+		return;
 	}
 	
 }

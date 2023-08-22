@@ -9,3 +9,7 @@ Main-settings:
    # The number of log message depends on the level
    # At this moment, noone works correctly :-)
    log-level: STANDART
+PlayTime-module-settings:
+   enable: true
+   db-socet: localhost:3306
+   db-name: name
